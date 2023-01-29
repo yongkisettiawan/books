@@ -58,7 +58,7 @@ const addNoteHandler = (request, h) => {
 
     const response = h.response({
       status: 'success',
-      message: 'buku berhasil ditambahkan',
+      message: 'Buku berhasil ditambahkan',
       data: {
         bookId: id,
       },
@@ -76,12 +76,21 @@ const addNoteHandler = (request, h) => {
   return response;
 };
 
-const getAllBoksHandler = () => ({
-  status: 'success',
-  data: {
-    books,
-  },
-});
+const getAllBooksHandler = (request, h) => {
+  const response = h.response({
+    status: 'success',
+    data: {
+      books: books.map((book) => ({
+        id: book.id,
+        name: book.name,
+        publisher: book.publisher,
+      })),
+    },
+  });
+  response.code(200);
+
+  return response;
+};
 
 const getBooksByIdHandler = (request, h) => {
   const { id } = request.params;
@@ -196,7 +205,7 @@ const deleteBooksByIdHandler = (request, h) => {
 
 module.exports = {
   addNoteHandler,
-  getAllBoksHandler,
+  getAllBooksHandler,
   getBooksByIdHandler,
   editBooksByIdHandler,
   deleteBooksByIdHandler,
